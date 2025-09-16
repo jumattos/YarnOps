@@ -12,7 +12,7 @@ namespace VisualStudio.Extension
             {
                 if (string.Equals("+", parameter))
                     Increase++;
-                else if (string.Equals("-", parameter) && Increase > 0)
+                else if (string.Equals("-", parameter) && Increase > 1)
                     Increase--;
 
                 return Task.CompletedTask;

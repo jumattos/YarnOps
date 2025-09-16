@@ -7,11 +7,20 @@
               xmlns:colors="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0">
     <Grid>
         <Grid.Resources>
-            <Style TargetType="Label" BasedOn="{StaticResource {x:Static styles:VsResourceKeys.ThemedDialogLabelStyleKey}}" />
-            <Style TargetType="TextBox" BasedOn="{StaticResource {x:Static styles:VsResourceKeys.TextBoxStyleKey}}" />
-            <Style TargetType="Button" BasedOn="{StaticResource {x:Static styles:VsResourceKeys.ButtonStyleKey}}" />
+            <Style TargetType="Label" BasedOn="{StaticResource {x:Static styles:VsResourceKeys.ThemedDialogLabelStyleKey}}">
+                <Setter Property="FontSize" Value="24" />
+            </Style>
+            <Style TargetType="TextBox" BasedOn="{StaticResource {x:Static styles:VsResourceKeys.TextBoxStyleKey}}">
+                <Setter Property="FontSize" Value="24" />
+                <Setter Property="TextAlignment" Value="Center" />
+            </Style>
+            <Style TargetType="Button" BasedOn="{StaticResource {x:Static styles:VsResourceKeys.ButtonStyleKey}}">
+                <Setter Property="FontSize" Value="24" />
+            </Style>
             <Style TargetType="TextBlock">
                 <Setter Property="Foreground" Value="{DynamicResource {x:Static styles:VsBrushes.WindowTextKey}}" />
+                <Setter Property="FontSize" Value="24" />
+                <Setter Property="TextAlignment" Value="Center" />
             </Style>
         </Grid.Resources>
         <Grid.ColumnDefinitions>
@@ -27,7 +36,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <!-- Instruction -->
-        <TextBlock Text="{Binding Instruction}" Grid.ColumnSpan="4" />
+        <TextBlock Text="{Binding Instruction}" Grid.ColumnSpan="4" Margin="5" />
 
         <!-- Row -->
         <Label Content="Row:" Grid.Row="1" />
@@ -43,10 +52,10 @@
         <Label Content="Increase:" Grid.Row="3" />
         <TextBox Text="{Binding Increase}" Grid.Row="3" Grid.Column="1" />
         <Button Command="{Binding AddOrRemoveIncreaseCommand}" CommandParameter="-" IsEnabled="{Binding AddOrRemoveIncreaseCommand.RunningCommandsCount.IsZero}" Grid.Row="3" Grid.Column="2">
-            <img:CrispImage Moniker="{x:Static catalog:KnownMonikers.Remove}" Width="16" Height="16" />
+            <img:CrispImage Moniker="{x:Static catalog:KnownMonikers.Remove}" Width="24" Height="24" />
         </Button>
         <Button Command="{Binding AddOrRemoveIncreaseCommand}" CommandParameter="+" IsEnabled="{Binding AddOrRemoveIncreaseCommand.RunningCommandsCount.IsZero}" Grid.Row="3" Grid.Column="3">
-            <img:CrispImage Moniker="{x:Static catalog:KnownMonikers.Add}" Width="16" Height="16" />
+            <img:CrispImage Moniker="{x:Static catalog:KnownMonikers.Add}" Width="24" Height="24" />
         </Button>
     </Grid>
 </DataTemplate>
