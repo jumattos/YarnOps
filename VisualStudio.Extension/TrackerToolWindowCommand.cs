@@ -5,17 +5,14 @@ using System.Threading.Tasks;
 
 namespace VisualStudio.Extension
 {
-    /// <summary>
-    /// A command for showing a tool window.
-    /// </summary>
     [VisualStudioContribution]
     public class TrackerToolWindowCommand : Command
     {
         /// <inheritdoc />
-        public override CommandConfiguration CommandConfiguration => new(displayName: "Yarn Ops...")
+        public override CommandConfiguration CommandConfiguration => new(displayName: "Yarn Ops")
         {
             Placements = [CommandPlacement.KnownPlacements.ViewOtherWindowsMenu],
-            Icon = new(ImageMoniker.KnownValues.Extension, IconSettings.IconAndText),
+            Icon = new(ImageMoniker.Custom("YarnOps"), IconSettings.IconAndText),
         };
 
         /// <inheritdoc />
