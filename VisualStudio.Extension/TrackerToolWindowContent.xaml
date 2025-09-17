@@ -5,57 +5,160 @@
               xmlns:catalog="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.ImageCatalog"
               xmlns:styles="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.15.0"
               xmlns:colors="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0">
-    <Grid>
-        <Grid.Resources>
-            <Style TargetType="Label" BasedOn="{StaticResource {x:Static styles:VsResourceKeys.ThemedDialogLabelStyleKey}}">
-                <Setter Property="FontSize" Value="24" />
-            </Style>
-            <Style TargetType="TextBox" BasedOn="{StaticResource {x:Static styles:VsResourceKeys.TextBoxStyleKey}}">
-                <Setter Property="FontSize" Value="24" />
-                <Setter Property="TextAlignment" Value="Center" />
-            </Style>
-            <Style TargetType="Button" BasedOn="{StaticResource {x:Static styles:VsResourceKeys.ButtonStyleKey}}">
-                <Setter Property="FontSize" Value="24" />
-            </Style>
-            <Style TargetType="TextBlock">
-                <Setter Property="Foreground" Value="{DynamicResource {x:Static styles:VsBrushes.WindowTextKey}}" />
-                <Setter Property="FontSize" Value="24" />
-                <Setter Property="TextAlignment" Value="Center" />
-            </Style>
-        </Grid.Resources>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <!-- Instruction -->
-        <TextBlock Text="{Binding Instruction}" Grid.ColumnSpan="4" Margin="5" />
+    <Border Background="{DynamicResource {x:Static styles:VsBrushes.ToolWindowBackgroundKey}}"
+            Padding="16">
+        
+        <Grid>
+            <Grid.Resources>
+                <!-- Fluent Design Typography -->
+                <Style x:Key="HeaderTextStyle" TargetType="TextBlock">
+                    <Setter Property="Foreground" Value="{DynamicResource {x:Static styles:VsBrushes.WindowTextKey}}" />
+                    <Setter Property="FontSize" Value="18" />
+                    <Setter Property="FontWeight" Value="SemiBold" />
+                    <Setter Property="Margin" Value="0,0,0,16" />
+                </Style>
+                
+                <Style x:Key="LabelTextStyle" TargetType="TextBlock">
+                    <Setter Property="Foreground" Value="{DynamicResource {x:Static styles:VsBrushes.WindowTextKey}}" />
+                    <Setter Property="FontSize" Value="14" />
+                    <Setter Property="FontWeight" Value="Medium" />
+                    <Setter Property="VerticalAlignment" Value="Center" />
+                    <Setter Property="Margin" Value="0,0,8,0" />
+                </Style>
+                
+                <!-- Fluent Design Input Controls -->
+                <Style x:Key="FluentTextBoxStyle" TargetType="TextBox" BasedOn="{StaticResource {x:Static styles:VsResourceKeys.TextBoxStyleKey}}">
+                    <Setter Property="FontSize" Value="14" />
+                    <Setter Property="Padding" Value="8,6" />
+                    <Setter Property="MinHeight" Value="28" />
+                    <Setter Property="VerticalContentAlignment" Value="Center" />
+                </Style>
+                
+                <!-- Fluent Design Buttons -->
+                <Style x:Key="FluentButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Static styles:VsResourceKeys.ButtonStyleKey}}">
+                    <Setter Property="FontSize" Value="14" />
+                    <Setter Property="FontWeight" Value="Medium" />
+                    <Setter Property="Padding" Value="12,6" />
+                    <Setter Property="MinHeight" Value="28" />
+                    <Setter Property="Margin" Value="4,0" />
+                </Style>
+                
+                <!-- Icon Button Style -->
+                <Style x:Key="IconButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Static styles:VsResourceKeys.ButtonStyleKey}}">
+                    <Setter Property="Width" Value="28" />
+                    <Setter Property="Height" Value="28" />
+                    <Setter Property="Padding" Value="4" />
+                    <Setter Property="Margin" Value="2,0" />
+                </Style>
+            </Grid.Resources>
+            
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            
+            <!-- Header/Instruction with Fluent Typography -->
+            <TextBlock Text="{Binding Instruction}" 
+                       Style="{StaticResource HeaderTextStyle}"
+                       Grid.Row="0"
+                       TextWrapping="Wrap" />
 
-        <!-- Row -->
-        <Label Content="Row:" Grid.Row="1" />
-        <TextBox Text="{Binding Row}" Grid.Row="1" Grid.Column="1" />
-        <Button Content="Next" Command="{Binding NextRowCommand}" IsEnabled="{Binding NextRowCommand.RunningCommandsCount.IsZero}" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" />
+            <!-- Row Section -->
+            <Border Grid.Row="1" 
+                    Background="{DynamicResource {x:Static styles:VsBrushes.ToolWindowTabSelectedTabKey}}"
+                    Padding="12,8"
+                    Margin="0,0,0,8">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    
+                    <TextBlock Text="Row:" 
+                               Style="{StaticResource LabelTextStyle}"
+                               Grid.Column="0" />
+                    <TextBox Text="{Binding Row}" 
+                             Style="{StaticResource FluentTextBoxStyle}"
+                             Grid.Column="1"
+                             Margin="8,0,8,0" />
+                    <Button Content="Next" 
+                            Style="{StaticResource FluentButtonStyle}"
+                            Command="{Binding NextRowCommand}" 
+                            IsEnabled="{Binding NextRowCommand.RunningCommandsCount.IsZero}" 
+                            Grid.Column="2" />
+                </Grid>
+            </Border>
 
-        <!-- Stitch -->
-        <Label Content="Stitch:" Grid.Row="2" />
-        <TextBox Text="{Binding Stitch}" Grid.Row="2" Grid.Column="1" />
-        <Button Content="Add" Command="{Binding AddStitchesCommand}" CommandParameter="{Binding Increase}" IsEnabled="{Binding AddStitchesCommand.RunningCommandsCount.IsZero}" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" />
+            <!-- Stitch Section -->
+            <Border Grid.Row="2" 
+                    Background="{DynamicResource {x:Static styles:VsBrushes.ToolWindowTabSelectedTabKey}}"
+                    Padding="12,8"
+                    Margin="0,0,0,8">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    
+                    <TextBlock Text="Stitch:" 
+                               Style="{StaticResource LabelTextStyle}"
+                               Grid.Column="0" />
+                    <TextBox Text="{Binding Stitch}" 
+                             Style="{StaticResource FluentTextBoxStyle}"
+                             Grid.Column="1"
+                             Margin="8,0,8,0" />
+                    <Button Content="Add" 
+                            Style="{StaticResource FluentButtonStyle}"
+                            Command="{Binding AddStitchesCommand}" 
+                            CommandParameter="{Binding Increase}" 
+                            IsEnabled="{Binding AddStitchesCommand.RunningCommandsCount.IsZero}" 
+                            Grid.Column="2" />
+                </Grid>
+            </Border>
 
-        <!-- Increase -->
-        <Label Content="Increase:" Grid.Row="3" />
-        <TextBox Text="{Binding Increase}" Grid.Row="3" Grid.Column="1" />
-        <Button Command="{Binding AddOrRemoveIncreaseCommand}" CommandParameter="-" IsEnabled="{Binding AddOrRemoveIncreaseCommand.RunningCommandsCount.IsZero}" Grid.Row="3" Grid.Column="2">
-            <img:CrispImage Moniker="{x:Static catalog:KnownMonikers.Remove}" Width="24" Height="24" />
-        </Button>
-        <Button Command="{Binding AddOrRemoveIncreaseCommand}" CommandParameter="+" IsEnabled="{Binding AddOrRemoveIncreaseCommand.RunningCommandsCount.IsZero}" Grid.Row="3" Grid.Column="3">
-            <img:CrispImage Moniker="{x:Static catalog:KnownMonikers.Add}" Width="24" Height="24" />
-        </Button>
-    </Grid>
+            <!-- Increase Section -->
+            <Border Grid.Row="3" 
+                    Background="{DynamicResource {x:Static styles:VsBrushes.ToolWindowTabSelectedTabKey}}"
+                    Padding="12,8">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    
+                    <TextBlock Text="Increase:" 
+                               Style="{StaticResource LabelTextStyle}"
+                               Grid.Column="0" />
+                    <TextBox Text="{Binding Increase}" 
+                             Style="{StaticResource FluentTextBoxStyle}"
+                             Grid.Column="1"
+                             Margin="8,0,8,0" />
+                    <Button Style="{StaticResource IconButtonStyle}"
+                            Command="{Binding AddOrRemoveIncreaseCommand}" 
+                            CommandParameter="-" 
+                            IsEnabled="{Binding AddOrRemoveIncreaseCommand.RunningCommandsCount.IsZero}" 
+                            Grid.Column="2"
+                            ToolTip="Decrease">
+                        <img:CrispImage Moniker="{x:Static catalog:KnownMonikers.Remove}" 
+                                        Width="16" Height="16" />
+                    </Button>
+                    <Button Style="{StaticResource IconButtonStyle}"
+                            Command="{Binding AddOrRemoveIncreaseCommand}" 
+                            CommandParameter="+" 
+                            IsEnabled="{Binding AddOrRemoveIncreaseCommand.RunningCommandsCount.IsZero}" 
+                            Grid.Column="3"
+                            ToolTip="Increase">
+                        <img:CrispImage Moniker="{x:Static catalog:KnownMonikers.Add}" 
+                                        Width="16" Height="16" />
+                    </Button>
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
 </DataTemplate>
