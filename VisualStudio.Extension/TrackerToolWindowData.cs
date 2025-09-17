@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.Extensibility.UI;
+using Microsoft.VisualStudio.Extensibility.UI;
 using System.Runtime.Serialization;
 
 namespace VisualStudio.Extension
@@ -6,6 +6,8 @@ namespace VisualStudio.Extension
     [DataContract]
     internal class TrackerToolWindowData : NotifyPropertyChangedObject
     {
+        private string[] _patternLines = Array.Empty<string>();
+
         public TrackerToolWindowData()
         {
             AddOrRemoveIncreaseCommand = new AsyncCommand((parameter, clientContext, cancellationToken) =>
@@ -28,8 +30,69 @@ namespace VisualStudio.Extension
             NextRowCommand = new AsyncCommand((parameter, clientContext, cancellationToken) =>
             {
                 Row++;
+                UpdateInstructionFromPattern();
                 return Task.CompletedTask;
             });
+
+            LoadPatternCommand = new AsyncCommand(async (parameter, clientContext, cancellationToken) =>
+            {
+                try
+                {
+                    if (string.IsNullOrWhiteSpace(FilePath))
+                    {
+                        Instruction = "Please enter a file path to load a pattern.";
+                        return;
+                    }
+
+                    // Handle optional quotes around the file path (common from "Copy as path")
+                    string cleanPath = FilePath.Trim();
+                    if (cleanPath.StartsWith("\"") && cleanPath.EndsWith("\"") && cleanPath.Length > 1)
+                    {
+                        cleanPath = cleanPath.Substring(1, cleanPath.Length - 2);
+                    }
+
+                    if (!File.Exists(cleanPath))
+                    {
+                        Instruction = $"File not found: {cleanPath}";
+                        return;
+                    }
+
+                    string[] lines = await File.ReadAllLinesAsync(cleanPath, cancellationToken);
+                    _patternLines = lines.Where(line => !string.IsNullOrWhiteSpace(line)).ToArray();
+                    
+                    // Reset to row 1 and update instruction
+                    Row = 1;
+                    UpdateInstructionFromPattern();
+                }
+                catch (Exception ex)
+                {
+                    Instruction = $"Error loading pattern: {ex.Message}";
+                }
+            });
+        }
+
+        private void UpdateInstructionFromPattern()
+        {
+            if (_patternLines.Length == 0)
+            {
+                Instruction = "Load pattern to see instructions here.";
+                return;
+            }
+
+            // Get the instruction for the current row (1-based indexing)
+            int rowIndex = Row - 1;
+            if (rowIndex >= 0 && rowIndex < _patternLines.Length)
+            {
+                Instruction = _patternLines[rowIndex];
+            }
+            else if (rowIndex >= _patternLines.Length)
+            {
+                Instruction = $"Pattern complete! (Only {_patternLines.Length} rows in pattern)";
+            }
+            else
+            {
+                Instruction = "Load pattern to see instructions here.";
+            }
         }
 
         private int _increase = 1;
@@ -53,7 +116,13 @@ namespace VisualStudio.Extension
         public int Row
         {
             get => _row;
-            set => SetProperty(ref this._row, Math.Max(1, value));
+            set 
+            { 
+                if (SetProperty(ref this._row, Math.Max(1, value)))
+                {
+                    UpdateInstructionFromPattern();
+                }
+            }
         }
 
         private int _stitch = 0;
@@ -64,6 +133,14 @@ namespace VisualStudio.Extension
             set => SetProperty(ref this._stitch, Math.Max(0, value));
         }
 
+        private string _filePath = "";
+        [DataMember]
+        public string FilePath
+        {
+            get => _filePath;
+            set => SetProperty(ref this._filePath, value ?? "");
+        }
+
         [DataMember]
         public AsyncCommand AddOrRemoveIncreaseCommand { get; }
 
@@ -72,5 +149,8 @@ namespace VisualStudio.Extension
 
         [DataMember]
         public AsyncCommand NextRowCommand { get; }
+
+        [DataMember]
+        public AsyncCommand LoadPatternCommand { get; }
     }
 }

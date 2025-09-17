@@ -72,6 +72,8 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             
             <!-- Header/Instruction with Fluent Typography -->
@@ -165,7 +167,8 @@
             <Border Grid.Row="3" 
                     Background="{DynamicResource {x:Static styles:VsBrushes.ToolWindowTabSelectedTabKey}}"
                     CornerRadius="6"
-                    Padding="12,8">
+                    Padding="12,8"
+                    Margin="0,0,0,8">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
@@ -215,6 +218,52 @@
                         </Button.Resources>
                         <img:CrispImage Moniker="{x:Static catalog:KnownMonikers.Add}" 
                                         Width="16" Height="16" />
+                    </Button>
+                </Grid>
+            </Border>
+
+            <!-- Load Pattern Button Section - Anchored to bottom right -->
+            <Border Grid.Row="5" 
+                    Background="{DynamicResource {x:Static styles:VsBrushes.ToolWindowTabSelectedTabKey}}"
+                    CornerRadius="6"
+                    Padding="12,8"
+                    VerticalAlignment="Bottom">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    
+                    <TextBlock Text="Path:" 
+                               Style="{StaticResource LabelTextStyle}"
+                               Grid.Column="0" />
+                    
+                    <!-- File Path TextBox Container -->
+                    <Border Grid.Column="1"
+                            Margin="8,0,8,0"
+                            Style="{StaticResource InputContainerStyle}">
+                        <TextBox Text="{Binding FilePath}" 
+                                 Style="{StaticResource FluentTextBoxStyle}"
+                                 ToolTip="Enter the full path to your pattern file. Quotes are optional (e.g., C:\path\to\pattern.txt or &quot;C:\path with spaces\pattern.txt&quot;)" />
+                    </Border>
+                    
+                    <!-- Load Pattern Button -->
+                    <Button Style="{StaticResource FluentButtonStyle}"
+                            Command="{Binding LoadPatternCommand}" 
+                            IsEnabled="{Binding LoadPatternCommand.RunningCommandsCount.IsZero}"
+                            Grid.Column="2">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="4"/>
+                            </Style>
+                        </Button.Resources>
+                        <StackPanel Orientation="Horizontal">
+                            <img:CrispImage Moniker="{x:Static catalog:KnownMonikers.OpenFolder}" 
+                                            Width="16" Height="16" 
+                                            Margin="0,0,8,0" />
+                            <TextBlock Text="Load Pattern" />
+                        </StackPanel>
                     </Button>
                 </Grid>
             </Border>
