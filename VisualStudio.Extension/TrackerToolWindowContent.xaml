@@ -6,7 +6,11 @@
               xmlns:styles="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.15.0"
               xmlns:colors="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0">
     <Border Background="{DynamicResource {x:Static styles:VsBrushes.ToolWindowBackgroundKey}}"
+            CornerRadius="8"
             Padding="16">
+        <Border.Effect>
+            <DropShadowEffect Color="Black" Opacity="0.1" ShadowDepth="2" BlurRadius="8"/>
+        </Border.Effect>
         
         <Grid>
             <Grid.Resources>
@@ -26,29 +30,40 @@
                     <Setter Property="Margin" Value="0,0,8,0" />
                 </Style>
                 
-                <!-- Fluent Design Input Controls -->
+                <!-- Fluent Design Input Controls with Rounded Borders -->
                 <Style x:Key="FluentTextBoxStyle" TargetType="TextBox" BasedOn="{StaticResource {x:Static styles:VsResourceKeys.TextBoxStyleKey}}">
                     <Setter Property="FontSize" Value="14" />
                     <Setter Property="Padding" Value="8,6" />
                     <Setter Property="MinHeight" Value="28" />
                     <Setter Property="VerticalContentAlignment" Value="Center" />
+                    <Setter Property="BorderThickness" Value="0" />
+                    <Setter Property="Background" Value="Transparent" />
                 </Style>
                 
-                <!-- Fluent Design Buttons -->
+                <!-- Fluent Design Buttons with Rounded Corners -->
                 <Style x:Key="FluentButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Static styles:VsResourceKeys.ButtonStyleKey}}">
                     <Setter Property="FontSize" Value="14" />
                     <Setter Property="FontWeight" Value="Medium" />
                     <Setter Property="Padding" Value="12,6" />
-                    <Setter Property="MinHeight" Value="28" />
+                    <Setter Property="Height" Value="32" />
                     <Setter Property="Margin" Value="4,0" />
                 </Style>
                 
-                <!-- Icon Button Style -->
+                <!-- Icon Button Style with Rounded Corners -->
                 <Style x:Key="IconButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Static styles:VsResourceKeys.ButtonStyleKey}}">
-                    <Setter Property="Width" Value="28" />
-                    <Setter Property="Height" Value="28" />
+                    <Setter Property="Width" Value="32" />
+                    <Setter Property="Height" Value="32" />
                     <Setter Property="Padding" Value="4" />
                     <Setter Property="Margin" Value="2,0" />
+                </Style>
+                
+                <!-- Container Border Style for consistent height -->
+                <Style x:Key="InputContainerStyle" TargetType="Border">
+                    <Setter Property="Background" Value="{DynamicResource {x:Static styles:VsBrushes.ComboBoxBackgroundKey}}" />
+                    <Setter Property="BorderBrush" Value="{DynamicResource {x:Static styles:VsBrushes.ComboBoxBorderKey}}" />
+                    <Setter Property="BorderThickness" Value="1" />
+                    <Setter Property="CornerRadius" Value="4" />
+                    <Setter Property="Height" Value="32" />
                 </Style>
             </Grid.Resources>
             
@@ -68,6 +83,7 @@
             <!-- Row Section -->
             <Border Grid.Row="1" 
                     Background="{DynamicResource {x:Static styles:VsBrushes.ToolWindowTabSelectedTabKey}}"
+                    CornerRadius="6"
                     Padding="12,8"
                     Margin="0,0,0,8">
                 <Grid>
@@ -80,21 +96,34 @@
                     <TextBlock Text="Row:" 
                                Style="{StaticResource LabelTextStyle}"
                                Grid.Column="0" />
-                    <TextBox Text="{Binding Row}" 
-                             Style="{StaticResource FluentTextBoxStyle}"
-                             Grid.Column="1"
-                             Margin="8,0,8,0" />
+                    
+                    <!-- Rounded TextBox Container -->
+                    <Border Grid.Column="1"
+                            Margin="8,0,8,0"
+                            Style="{StaticResource InputContainerStyle}">
+                        <TextBox Text="{Binding Row}" 
+                                 Style="{StaticResource FluentTextBoxStyle}" />
+                    </Border>
+                    
+                    <!-- Rounded Button with Internal Corner Radius -->
                     <Button Content="Next" 
                             Style="{StaticResource FluentButtonStyle}"
                             Command="{Binding NextRowCommand}" 
                             IsEnabled="{Binding NextRowCommand.RunningCommandsCount.IsZero}" 
-                            Grid.Column="2" />
+                            Grid.Column="2">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="4"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
                 </Grid>
             </Border>
 
             <!-- Stitch Section -->
             <Border Grid.Row="2" 
                     Background="{DynamicResource {x:Static styles:VsBrushes.ToolWindowTabSelectedTabKey}}"
+                    CornerRadius="6"
                     Padding="12,8"
                     Margin="0,0,0,8">
                 <Grid>
@@ -107,22 +136,35 @@
                     <TextBlock Text="Stitch:" 
                                Style="{StaticResource LabelTextStyle}"
                                Grid.Column="0" />
-                    <TextBox Text="{Binding Stitch}" 
-                             Style="{StaticResource FluentTextBoxStyle}"
-                             Grid.Column="1"
-                             Margin="8,0,8,0" />
+                    
+                    <!-- Rounded TextBox Container -->
+                    <Border Grid.Column="1"
+                            Margin="8,0,8,0"
+                            Style="{StaticResource InputContainerStyle}">
+                        <TextBox Text="{Binding Stitch}" 
+                                 Style="{StaticResource FluentTextBoxStyle}" />
+                    </Border>
+                    
+                    <!-- Rounded Button with Internal Corner Radius -->
                     <Button Content="Add" 
                             Style="{StaticResource FluentButtonStyle}"
                             Command="{Binding AddStitchesCommand}" 
                             CommandParameter="{Binding Increase}" 
                             IsEnabled="{Binding AddStitchesCommand.RunningCommandsCount.IsZero}" 
-                            Grid.Column="2" />
+                            Grid.Column="2">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="4"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
                 </Grid>
             </Border>
 
             <!-- Increase Section -->
             <Border Grid.Row="3" 
                     Background="{DynamicResource {x:Static styles:VsBrushes.ToolWindowTabSelectedTabKey}}"
+                    CornerRadius="6"
                     Padding="12,8">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -135,25 +177,42 @@
                     <TextBlock Text="Increase:" 
                                Style="{StaticResource LabelTextStyle}"
                                Grid.Column="0" />
-                    <TextBox Text="{Binding Increase}" 
-                             Style="{StaticResource FluentTextBoxStyle}"
-                             Grid.Column="1"
-                             Margin="8,0,8,0" />
+                    
+                    <!-- Rounded TextBox Container -->
+                    <Border Grid.Column="1"
+                            Margin="8,0,8,0"
+                            Style="{StaticResource InputContainerStyle}">
+                        <TextBox Text="{Binding Increase}" 
+                                 Style="{StaticResource FluentTextBoxStyle}" />
+                    </Border>
+                    
+                    <!-- Rounded Icon Buttons with Internal Corner Radius -->
                     <Button Style="{StaticResource IconButtonStyle}"
                             Command="{Binding AddOrRemoveIncreaseCommand}" 
                             CommandParameter="-" 
                             IsEnabled="{Binding AddOrRemoveIncreaseCommand.RunningCommandsCount.IsZero}" 
                             Grid.Column="2"
                             ToolTip="Decrease">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="4"/>
+                            </Style>
+                        </Button.Resources>
                         <img:CrispImage Moniker="{x:Static catalog:KnownMonikers.Remove}" 
                                         Width="16" Height="16" />
                     </Button>
+                    
                     <Button Style="{StaticResource IconButtonStyle}"
                             Command="{Binding AddOrRemoveIncreaseCommand}" 
                             CommandParameter="+" 
-                            IsEnabled="{Binding AddOrRemoveIncreaseCommand.RunningCommandsCount.IsZero}" 
+                            IsEnabled="{Binding AddOrRemoveIncreaseCommand.RunningCommandsCount.IsZero}"
                             Grid.Column="3"
                             ToolTip="Increase">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="4"/>
+                            </Style>
+                        </Button.Resources>
                         <img:CrispImage Moniker="{x:Static catalog:KnownMonikers.Add}" 
                                         Width="16" Height="16" />
                     </Button>
