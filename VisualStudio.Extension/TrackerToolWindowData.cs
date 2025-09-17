@@ -37,7 +37,7 @@ namespace VisualStudio.Extension
         public int Increase
         {
             get => _increase;
-            set => SetProperty(ref this._increase, value);
+            set => SetProperty(ref this._increase, Math.Max(1, value));
         }
 
         private string _instruction = "Load pattern to see instructions here.";
@@ -53,7 +53,7 @@ namespace VisualStudio.Extension
         public int Row
         {
             get => _row;
-            set => SetProperty(ref this._row, value);
+            set => SetProperty(ref this._row, Math.Max(1, value));
         }
 
         private int _stitch = 0;
@@ -61,7 +61,7 @@ namespace VisualStudio.Extension
         public int Stitch
         {
             get => _stitch;
-            set => SetProperty(ref this._stitch, value);
+            set => SetProperty(ref this._stitch, Math.Max(0, value));
         }
 
         [DataMember]
