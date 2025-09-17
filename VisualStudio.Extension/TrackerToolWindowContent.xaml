@@ -49,12 +49,17 @@
                     <Setter Property="Margin" Value="4,0" />
                 </Style>
                 
-                <!-- Icon Button Style with Rounded Corners -->
-                <Style x:Key="IconButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Static styles:VsResourceKeys.ButtonStyleKey}}">
+                <!-- Text Icon Button Style with Icon-like Font -->
+                <Style x:Key="TextIconButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Static styles:VsResourceKeys.ButtonStyleKey}}">
                     <Setter Property="Width" Value="32" />
                     <Setter Property="Height" Value="32" />
-                    <Setter Property="Padding" Value="4" />
+                    <Setter Property="Padding" Value="0" />
                     <Setter Property="Margin" Value="2,0" />
+                    <Setter Property="FontFamily" Value="Segoe UI" />
+                    <Setter Property="FontSize" Value="16" />
+                    <Setter Property="FontWeight" Value="Bold" />
+                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                    <Setter Property="VerticalContentAlignment" Value="Center" />
                 </Style>
                 
                 <!-- Container Border Style for consistent height -->
@@ -189,8 +194,9 @@
                                  Style="{StaticResource FluentTextBoxStyle}" />
                     </Border>
                     
-                    <!-- Rounded Icon Buttons with Internal Corner Radius -->
-                    <Button Style="{StaticResource IconButtonStyle}"
+                    <!-- Text-based Icon Buttons with Rounded Corners -->
+                    <Button Content="−"
+                            Style="{StaticResource TextIconButtonStyle}"
                             Command="{Binding AddOrRemoveIncreaseCommand}" 
                             CommandParameter="-" 
                             IsEnabled="{Binding AddOrRemoveIncreaseCommand.RunningCommandsCount.IsZero}" 
@@ -201,11 +207,10 @@
                                 <Setter Property="CornerRadius" Value="4"/>
                             </Style>
                         </Button.Resources>
-                        <img:CrispImage Moniker="{x:Static catalog:KnownMonikers.Remove}" 
-                                        Width="16" Height="16" />
                     </Button>
                     
-                    <Button Style="{StaticResource IconButtonStyle}"
+                    <Button Content="+"
+                            Style="{StaticResource TextIconButtonStyle}"
                             Command="{Binding AddOrRemoveIncreaseCommand}" 
                             CommandParameter="+" 
                             IsEnabled="{Binding AddOrRemoveIncreaseCommand.RunningCommandsCount.IsZero}"
@@ -216,8 +221,6 @@
                                 <Setter Property="CornerRadius" Value="4"/>
                             </Style>
                         </Button.Resources>
-                        <img:CrispImage Moniker="{x:Static catalog:KnownMonikers.Add}" 
-                                        Width="16" Height="16" />
                     </Button>
                 </Grid>
             </Border>
