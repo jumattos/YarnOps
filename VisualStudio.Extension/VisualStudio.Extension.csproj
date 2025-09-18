@@ -1,59 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>net8.0-windows</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    
-    <!-- Assembly and Output Configuration -->
-    <AssemblyName>YarnOps</AssemblyName>
-    
-    <!-- VSIX Generation Properties -->
-    <GenerateVSIXFile>true</GenerateVSIXFile>
-    <UseCodebase>true</UseCodebase>
-    <CreateVsixContainer>true</CreateVsixContainer>
-    <DeployExtension>false</DeployExtension>
-    
-    <!-- Extension Metadata -->
-    <VSIXDisplayName>YarnOps</VSIXDisplayName>
-    <VSIXDescription>Stay focused during builds with a simple fiber project tracker.</VSIXDescription>
-    <VSIXLanguage>en-US</VSIXLanguage>
-    <VSIXVersion>1.0.0</VSIXVersion>
-    <VSIXIdentity>YarnOps.29e4c6f8-0b85-4fb1-aeb4-20ff57c65928</VSIXIdentity>
-    <VSIXPublisher>Jullyana Ramos</VSIXPublisher>
-  </PropertyGroup>
-  
-  <ItemGroup>
-    <None Remove="TrackerToolWindowContent.xaml" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <EmbeddedResource Include="TrackerToolWindowContent.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </EmbeddedResource>
-  </ItemGroup>
-  
-  <ItemGroup>
-    <None Include="source.extension.vsixmanifest">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="LICENSE.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </None>
-    <None Include="Images\YarnOps.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </None>
-    <None Include="Images\Preview.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </None>
-  </ItemGroup>
+    <PropertyGroup>
+        <TargetFramework>net8.0-windows</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <AssemblyName>YarnOps</AssemblyName>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.VisualStudio.Extensibility.Sdk" Version="17.9.2092" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.VisualStudio.Extensibility.Build" Version="17.9.2092" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.VisualStudio.ImageCatalog" Version="17.14.40260" />
-    <PackageReference Include="Microsoft.VisualStudio.Imaging" Version="17.14.40264" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.VisualStudio.Extensibility.Sdk" Version="17.14.40254" PrivateAssets="all" />
+        <PackageReference Include="Microsoft.VisualStudio.Extensibility.Build" Version="17.14.40254" PrivateAssets="all" />
+        <PackageReference Include="Microsoft.VisualStudio.ImageCatalog" Version="17.14.40260" />
+        <PackageReference Include="Microsoft.VisualStudio.Imaging" Version="17.14.40264" />
+    </ItemGroup>
 </Project>
