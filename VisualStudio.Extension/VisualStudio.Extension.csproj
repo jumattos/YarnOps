@@ -3,17 +3,51 @@
     <TargetFramework>net8.0-windows</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    
+    <!-- Assembly and Output Configuration -->
+    <AssemblyName>YarnOps</AssemblyName>
+    
+    <!-- VSIX Generation Properties -->
+    <GenerateVSIXFile>true</GenerateVSIXFile>
+    <UseCodebase>true</UseCodebase>
+    <CreateVsixContainer>true</CreateVsixContainer>
+    <DeployExtension>false</DeployExtension>
+    
+    <!-- Extension Metadata -->
+    <VSIXDisplayName>YarnOps</VSIXDisplayName>
+    <VSIXDescription>Stay focused during builds with a simple fiber project tracker.</VSIXDescription>
+    <VSIXLanguage>en-US</VSIXLanguage>
+    <VSIXVersion>1.0.0</VSIXVersion>
+    <VSIXIdentity>YarnOps.29e4c6f8-0b85-4fb1-aeb4-20ff57c65928</VSIXIdentity>
+    <VSIXPublisher>Jullyana Ramos</VSIXPublisher>
   </PropertyGroup>
-  <ItemGroup>
-    <Compile Remove="Command1.cs" />
-  </ItemGroup>
+  
   <ItemGroup>
     <None Remove="TrackerToolWindowContent.xaml" />
   </ItemGroup>
+  
   <ItemGroup>
     <EmbeddedResource Include="TrackerToolWindowContent.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <None Include="source.extension.vsixmanifest">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="LICENSE.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </None>
+    <None Include="Images\YarnOps.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </None>
+    <None Include="Images\Preview.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
