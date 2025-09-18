@@ -12,332 +12,339 @@
             <DropShadowEffect Color="Black" Opacity="0.1" ShadowDepth="2" BlurRadius="8"/>
         </Border.Effect>
         
-        <Grid>
-            <Grid.Resources>
-                <!-- Fluent Design Typography -->
-                <Style x:Key="HeaderTextStyle" TargetType="TextBlock">
-                    <Setter Property="Foreground" Value="{DynamicResource {x:Static styles:VsBrushes.WindowTextKey}}" />
-                    <Setter Property="FontSize" Value="18" />
-                    <Setter Property="FontWeight" Value="SemiBold" />
-                    <Setter Property="Margin" Value="0,0,0,16" />
-                </Style>
+        <!-- Add ScrollViewer with accessibility improvements -->
+        <ScrollViewer VerticalScrollBarVisibility="Auto" 
+                      HorizontalScrollBarVisibility="Disabled"
+                      CanContentScroll="False"
+                      PanningMode="VerticalOnly"
+                      AutomationProperties.Name="Tool window content">
+            <Grid>
+                <Grid.Resources>
+                    <!-- Fluent Design Typography -->
+                    <Style x:Key="HeaderTextStyle" TargetType="TextBlock">
+                        <Setter Property="Foreground" Value="{DynamicResource {x:Static styles:VsBrushes.WindowTextKey}}" />
+                        <Setter Property="FontSize" Value="18" />
+                        <Setter Property="FontWeight" Value="SemiBold" />
+                        <Setter Property="Margin" Value="0,0,0,16" />
+                    </Style>
+                    
+                    <Style x:Key="LabelTextStyle" TargetType="TextBlock">
+                        <Setter Property="Foreground" Value="{DynamicResource {x:Static styles:VsBrushes.WindowTextKey}}" />
+                        <Setter Property="FontSize" Value="14" />
+                        <Setter Property="FontWeight" Value="Medium" />
+                        <Setter Property="VerticalAlignment" Value="Center" />
+                        <Setter Property="Margin" Value="0,0,8,0" />
+                    </Style>
+                    
+                    <!-- Fluent Design Input Controls with Rounded Borders -->
+                    <Style x:Key="FluentTextBoxStyle" TargetType="TextBox" BasedOn="{StaticResource {x:Static styles:VsResourceKeys.TextBoxStyleKey}}">
+                        <Setter Property="FontSize" Value="14" />
+                        <Setter Property="Padding" Value="8,6" />
+                        <Setter Property="MinHeight" Value="28" />
+                        <Setter Property="VerticalContentAlignment" Value="Center" />
+                        <Setter Property="BorderThickness" Value="0" />
+                        <Setter Property="Background" Value="Transparent" />
+                    </Style>
+                    
+                    <!-- Fluent Design Buttons with Rounded Corners -->
+                    <Style x:Key="FluentButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Static styles:VsResourceKeys.ButtonStyleKey}}">
+                        <Setter Property="FontSize" Value="14" />
+                        <Setter Property="FontWeight" Value="Medium" />
+                        <Setter Property="Padding" Value="12,6" />
+                        <Setter Property="Height" Value="32" />
+                        <Setter Property="Margin" Value="4,0" />
+                    </Style>
+                    
+                    <!-- Text Icon Button Style with Icon-like Font -->
+                    <Style x:Key="TextIconButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Static styles:VsResourceKeys.ButtonStyleKey}}">
+                        <Setter Property="Width" Value="32" />
+                        <Setter Property="Height" Value="32" />
+                        <Setter Property="Padding" Value="0" />
+                        <Setter Property="Margin" Value="2,0" />
+                        <Setter Property="FontFamily" Value="Segoe UI" />
+                        <Setter Property="FontSize" Value="16" />
+                        <Setter Property="FontWeight" Value="Bold" />
+                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                        <Setter Property="VerticalContentAlignment" Value="Center" />
+                    </Style>
+                    
+                    <!-- Container Border Style for consistent height -->
+                    <Style x:Key="InputContainerStyle" TargetType="Border">
+                        <Setter Property="Background" Value="{DynamicResource {x:Static styles:VsBrushes.ComboBoxBackgroundKey}}" />
+                        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static styles:VsBrushes.ComboBoxBorderKey}}" />
+                        <Setter Property="BorderThickness" Value="1" />
+                        <Setter Property="CornerRadius" Value="4" />
+                        <Setter Property="Height" Value="32" />
+                    </Style>
+                </Grid.Resources>
                 
-                <Style x:Key="LabelTextStyle" TargetType="TextBlock">
-                    <Setter Property="Foreground" Value="{DynamicResource {x:Static styles:VsBrushes.WindowTextKey}}" />
-                    <Setter Property="FontSize" Value="14" />
-                    <Setter Property="FontWeight" Value="Medium" />
-                    <Setter Property="VerticalAlignment" Value="Center" />
-                    <Setter Property="Margin" Value="0,0,8,0" />
-                </Style>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
                 
-                <!-- Fluent Design Input Controls with Rounded Borders -->
-                <Style x:Key="FluentTextBoxStyle" TargetType="TextBox" BasedOn="{StaticResource {x:Static styles:VsResourceKeys.TextBoxStyleKey}}">
-                    <Setter Property="FontSize" Value="14" />
-                    <Setter Property="Padding" Value="8,6" />
-                    <Setter Property="MinHeight" Value="28" />
-                    <Setter Property="VerticalContentAlignment" Value="Center" />
-                    <Setter Property="BorderThickness" Value="0" />
-                    <Setter Property="Background" Value="Transparent" />
-                </Style>
-                
-                <!-- Fluent Design Buttons with Rounded Corners -->
-                <Style x:Key="FluentButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Static styles:VsResourceKeys.ButtonStyleKey}}">
-                    <Setter Property="FontSize" Value="14" />
-                    <Setter Property="FontWeight" Value="Medium" />
-                    <Setter Property="Padding" Value="12,6" />
-                    <Setter Property="Height" Value="32" />
-                    <Setter Property="Margin" Value="4,0" />
-                </Style>
-                
-                <!-- Text Icon Button Style with Icon-like Font -->
-                <Style x:Key="TextIconButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Static styles:VsResourceKeys.ButtonStyleKey}}">
-                    <Setter Property="Width" Value="32" />
-                    <Setter Property="Height" Value="32" />
-                    <Setter Property="Padding" Value="0" />
-                    <Setter Property="Margin" Value="2,0" />
-                    <Setter Property="FontFamily" Value="Segoe UI" />
-                    <Setter Property="FontSize" Value="16" />
-                    <Setter Property="FontWeight" Value="Bold" />
-                    <Setter Property="HorizontalContentAlignment" Value="Center" />
-                    <Setter Property="VerticalContentAlignment" Value="Center" />
-                </Style>
-                
-                <!-- Container Border Style for consistent height -->
-                <Style x:Key="InputContainerStyle" TargetType="Border">
-                    <Setter Property="Background" Value="{DynamicResource {x:Static styles:VsBrushes.ComboBoxBackgroundKey}}" />
-                    <Setter Property="BorderBrush" Value="{DynamicResource {x:Static styles:VsBrushes.ComboBoxBorderKey}}" />
-                    <Setter Property="BorderThickness" Value="1" />
-                    <Setter Property="CornerRadius" Value="4" />
-                    <Setter Property="Height" Value="32" />
-                </Style>
-            </Grid.Resources>
-            
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            
-            <!-- Header/Instruction with Fluent Typography -->
-            <TextBlock Text="{Binding Instruction}" 
-                       Style="{StaticResource HeaderTextStyle}"
-                       Grid.Row="0"
-                       TextWrapping="Wrap" />
+                <!-- Header/Instruction with Fluent Typography -->
+                <TextBlock Text="{Binding Instruction}" 
+                           Style="{StaticResource HeaderTextStyle}"
+                           Grid.Row="0"
+                           TextWrapping="Wrap" />
 
-            <!-- Row Section -->
-            <Border Grid.Row="1" 
-                    Background="{DynamicResource {x:Static styles:VsBrushes.ToolWindowTabSelectedTabKey}}"
-                    CornerRadius="6"
-                    Padding="12,8"
-                    Margin="0,0,0,8">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    
-                    <TextBlock Text="Row:" 
-                               Style="{StaticResource LabelTextStyle}"
-                               Grid.Column="0" />
-                    
-                    <!-- Rounded TextBox Container -->
-                    <Border Grid.Column="1"
-                            Margin="8,0,8,0"
-                            Style="{StaticResource InputContainerStyle}">
-                        <TextBox Text="{Binding Row}" 
-                                 Style="{StaticResource FluentTextBoxStyle}" 
-                                 AutomationProperties.Name="Row number" />
-                    </Border>
-                    
-                    <!-- Rounded Button with Internal Corner Radius -->
-                    <Button Content="Next" 
-                            Style="{StaticResource FluentButtonStyle}"
-                            Command="{Binding NextRowCommand}" 
-                            IsEnabled="{Binding NextRowCommand.RunningCommandsCount.IsZero}" 
-                            Grid.Column="2"
-                            AutomationProperties.Name="Next row">
-                        <Button.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="4"/>
-                            </Style>
-                        </Button.Resources>
-                    </Button>
-                </Grid>
-            </Border>
-
-            <!-- Stitch Section -->
-            <Border Grid.Row="2" 
-                    Background="{DynamicResource {x:Static styles:VsBrushes.ToolWindowTabSelectedTabKey}}"
-                    CornerRadius="6"
-                    Padding="12,8"
-                    Margin="0,0,0,8">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    
-                    <TextBlock Text="Stitch:" 
-                               Style="{StaticResource LabelTextStyle}"
-                               Grid.Column="0" />
-                    
-                    <!-- Rounded TextBox Container -->
-                    <Border Grid.Column="1"
-                            Margin="8,0,8,0"
-                            Style="{StaticResource InputContainerStyle}">
-                        <TextBox Text="{Binding Stitch}" 
-                                 Style="{StaticResource FluentTextBoxStyle}" 
-                                 AutomationProperties.Name="Current stitch count" />
-                    </Border>
-                    
-                    <!-- Rounded Button with Internal Corner Radius -->
-                    <Button Content="Add" 
-                            Style="{StaticResource FluentButtonStyle}"
-                            Command="{Binding AddStitchesCommand}" 
-                            CommandParameter="{Binding Increase}" 
-                            IsEnabled="{Binding AddStitchesCommand.RunningCommandsCount.IsZero}" 
-                            Grid.Column="2"
-                            AutomationProperties.Name="Add stitches">
-                        <Button.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="4"/>
-                            </Style>
-                        </Button.Resources>
-                    </Button>
-                </Grid>
-            </Border>
-
-            <!-- Increase Section -->
-            <Border Grid.Row="3" 
-                    Background="{DynamicResource {x:Static styles:VsBrushes.ToolWindowTabSelectedTabKey}}"
-                    CornerRadius="6"
-                    Padding="12,8"
-                    Margin="0,0,0,8">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    
-                    <TextBlock Text="Increase:" 
-                               Style="{StaticResource LabelTextStyle}"
-                               Grid.Column="0" />
-                    
-                    <!-- Rounded TextBox Container -->
-                    <Border Grid.Column="1"
-                            Margin="8,0,8,0"
-                            Style="{StaticResource InputContainerStyle}">
-                        <TextBox Text="{Binding Increase}" 
-                                 Style="{StaticResource FluentTextBoxStyle}" 
-                                 AutomationProperties.Name="Increase amount" />
-                    </Border>
-                    
-                    <!-- Text-based Icon Buttons with Rounded Corners -->
-                    <Button Content="−"
-                            Style="{StaticResource TextIconButtonStyle}"
-                            Command="{Binding AddOrRemoveIncreaseCommand}" 
-                            CommandParameter="-" 
-                            IsEnabled="{Binding AddOrRemoveIncreaseCommand.RunningCommandsCount.IsZero}" 
-                            Grid.Column="2"
-                            ToolTip="Decrease"
-                            AutomationProperties.Name="Decrease increase amount">
-                        <Button.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="4"/>
-                            </Style>
-                        </Button.Resources>
-                    </Button>
-                    
-                    <Button Content="+"
-                            Style="{StaticResource TextIconButtonStyle}"
-                            Command="{Binding AddOrRemoveIncreaseCommand}" 
-                            CommandParameter="+" 
-                            IsEnabled="{Binding AddOrRemoveIncreaseCommand.RunningCommandsCount.IsZero}"
-                            Grid.Column="3"
-                            ToolTip="Increase"
-                            AutomationProperties.Name="Increase increase amount">
-                        <Button.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="4"/>
-                            </Style>
-                        </Button.Resources>
-                    </Button>
-                </Grid>
-            </Border>
-
-            <!-- Row Progress Section -->
-            <Border Grid.Row="4" 
-                    Background="{DynamicResource {x:Static styles:VsBrushes.ToolWindowTabSelectedTabKey}}"
-                    CornerRadius="6"
-                    Padding="12,8"
-                    Margin="0,0,0,8">
-                <StackPanel>
-                    <!-- Progress Header -->
-                    <Grid Margin="0,0,0,4">
+                <!-- Row Section -->
+                <Border Grid.Row="1" 
+                        Background="{DynamicResource {x:Static styles:VsBrushes.ToolWindowTabSelectedTabKey}}"
+                        CornerRadius="6"
+                        Padding="12,8"
+                        Margin="0,0,0,8">
+                    <Grid>
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         
-                        <TextBlock Text="Row Progress" 
+                        <TextBlock Text="Row:" 
                                    Style="{StaticResource LabelTextStyle}"
                                    Grid.Column="0" />
                         
-                        <StackPanel Orientation="Horizontal" Grid.Column="1">
-                            <TextBlock Text="{Binding Stitch}" 
+                        <!-- Rounded TextBox Container -->
+                        <Border Grid.Column="1"
+                                Margin="8,0,8,0"
+                                Style="{StaticResource InputContainerStyle}">
+                            <TextBox Text="{Binding Row}" 
+                                     Style="{StaticResource FluentTextBoxStyle}" 
+                                     AutomationProperties.Name="Row number" />
+                        </Border>
+                        
+                        <!-- Rounded Button with Internal Corner Radius -->
+                        <Button Content="Next" 
+                                Style="{StaticResource FluentButtonStyle}"
+                                Command="{Binding NextRowCommand}" 
+                                IsEnabled="{Binding NextRowCommand.RunningCommandsCount.IsZero}" 
+                                Grid.Column="2"
+                                AutomationProperties.Name="Next row">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="4"/>
+                                </Style>
+                            </Button.Resources>
+                        </Button>
+                    </Grid>
+                </Border>
+
+                <!-- Stitch Section -->
+                <Border Grid.Row="2" 
+                        Background="{DynamicResource {x:Static styles:VsBrushes.ToolWindowTabSelectedTabKey}}"
+                        CornerRadius="6"
+                        Padding="12,8"
+                        Margin="0,0,0,8">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        
+                        <TextBlock Text="Stitch:" 
+                                   Style="{StaticResource LabelTextStyle}"
+                                   Grid.Column="0" />
+                        
+                        <!-- Rounded TextBox Container -->
+                        <Border Grid.Column="1"
+                                Margin="8,0,8,0"
+                                Style="{StaticResource InputContainerStyle}">
+                            <TextBox Text="{Binding Stitch}" 
+                                     Style="{StaticResource FluentTextBoxStyle}" 
+                                     AutomationProperties.Name="Current stitch count" />
+                        </Border>
+                        
+                        <!-- Rounded Button with Internal Corner Radius -->
+                        <Button Content="Add" 
+                                Style="{StaticResource FluentButtonStyle}"
+                                Command="{Binding AddStitchesCommand}" 
+                                CommandParameter="{Binding Increase}" 
+                                IsEnabled="{Binding AddStitchesCommand.RunningCommandsCount.IsZero}" 
+                                Grid.Column="2"
+                                AutomationProperties.Name="Add stitches">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="4"/>
+                                </Style>
+                            </Button.Resources>
+                        </Button>
+                    </Grid>
+                </Border>
+
+                <!-- Increase Section -->
+                <Border Grid.Row="3" 
+                        Background="{DynamicResource {x:Static styles:VsBrushes.ToolWindowTabSelectedTabKey}}"
+                        CornerRadius="6"
+                        Padding="12,8"
+                        Margin="0,0,0,8">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        
+                        <TextBlock Text="Increase:" 
+                                   Style="{StaticResource LabelTextStyle}"
+                                   Grid.Column="0" />
+                        
+                        <!-- Rounded TextBox Container -->
+                        <Border Grid.Column="1"
+                                Margin="8,0,8,0"
+                                Style="{StaticResource InputContainerStyle}">
+                            <TextBox Text="{Binding Increase}" 
+                                     Style="{StaticResource FluentTextBoxStyle}" 
+                                     AutomationProperties.Name="Increase amount" />
+                        </Border>
+                        
+                        <!-- Text-based Icon Buttons with Rounded Corners -->
+                        <Button Content="−"
+                                Style="{StaticResource TextIconButtonStyle}"
+                                Command="{Binding AddOrRemoveIncreaseCommand}" 
+                                CommandParameter="-" 
+                                IsEnabled="{Binding AddOrRemoveIncreaseCommand.RunningCommandsCount.IsZero}" 
+                                Grid.Column="2"
+                                ToolTip="Decrease"
+                                AutomationProperties.Name="Decrease increase amount">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="4"/>
+                                </Style>
+                            </Button.Resources>
+                        </Button>
+                        
+                        <Button Content="+"
+                                Style="{StaticResource TextIconButtonStyle}"
+                                Command="{Binding AddOrRemoveIncreaseCommand}" 
+                                CommandParameter="+" 
+                                IsEnabled="{Binding AddOrRemoveIncreaseCommand.RunningCommandsCount.IsZero}"
+                                Grid.Column="3"
+                                ToolTip="Increase"
+                                AutomationProperties.Name="Increase increase amount">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="4"/>
+                                </Style>
+                            </Button.Resources>
+                        </Button>
+                    </Grid>
+                </Border>
+
+                <!-- Row Progress Section -->
+                <Border Grid.Row="4" 
+                        Background="{DynamicResource {x:Static styles:VsBrushes.ToolWindowTabSelectedTabKey}}"
+                        CornerRadius="6"
+                        Padding="12,8"
+                        Margin="0,0,0,8">
+                    <StackPanel>
+                        <!-- Progress Header -->
+                        <Grid Margin="0,0,0,4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            
+                            <TextBlock Text="Row Progress" 
                                        Style="{StaticResource LabelTextStyle}"
-                                       FontWeight="Bold" />
-                            <TextBlock Text=" / " 
-                                       Style="{StaticResource LabelTextStyle}" />
-                            <TextBlock Text="{Binding TotalStitchesInRow}" 
+                                       Grid.Column="0" />
+                            
+                            <StackPanel Orientation="Horizontal" Grid.Column="1">
+                                <TextBlock Text="{Binding Stitch}" 
+                                           Style="{StaticResource LabelTextStyle}"
+                                           FontWeight="Bold" />
+                                <TextBlock Text=" / " 
+                                           Style="{StaticResource LabelTextStyle}" />
+                                <TextBlock Text="{Binding TotalStitchesInRow}" 
+                                           Style="{StaticResource LabelTextStyle}"
+                                           FontWeight="Bold" />
+                                <TextBlock Text=" stitches" 
+                                           Style="{StaticResource LabelTextStyle}"
+                                           Margin="4,0,0,0" />
+                            </StackPanel>
+                        </Grid>
+                        
+                        <!-- Progress Bar -->
+                        <ProgressBar Value="{Binding ProgressPercentage}" 
+                                     Maximum="100"
+                                     Height="16"
+                                     Margin="0,4,0,8"
+                                     BorderThickness="0"
+                                     Background="{DynamicResource {x:Static styles:VsBrushes.ComboBoxBackgroundKey}}"
+                                     Foreground="{DynamicResource {x:Static styles:VsBrushes.HighlightKey}}" 
+                                     AutomationProperties.Name="Row progress" />
+                        
+                        <!-- Remaining Stitches -->
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <TextBlock Text="{Binding RemainingStitches}" 
                                        Style="{StaticResource LabelTextStyle}"
-                                       FontWeight="Bold" />
-                            <TextBlock Text=" stitches" 
+                                       FontSize="16"
+                                       FontWeight="Bold"
+                                       Foreground="{DynamicResource {x:Static styles:VsBrushes.HighlightKey}}" />
+                            <TextBlock Text=" stitches remaining" 
                                        Style="{StaticResource LabelTextStyle}"
+                                       FontSize="14"
                                        Margin="4,0,0,0" />
                         </StackPanel>
-                    </Grid>
-                    
-                    <!-- Progress Bar -->
-                    <ProgressBar Value="{Binding ProgressPercentage}" 
-                                 Maximum="100"
-                                 Height="16"
-                                 Margin="0,4,0,8"
-                                 BorderThickness="0"
-                                 Background="{DynamicResource {x:Static styles:VsBrushes.ComboBoxBackgroundKey}}"
-                                 Foreground="{DynamicResource {x:Static styles:VsBrushes.HighlightKey}}" 
-                                 AutomationProperties.Name="Row progress" />
-                    
-                    <!-- Remaining Stitches -->
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <TextBlock Text="{Binding RemainingStitches}" 
-                                   Style="{StaticResource LabelTextStyle}"
-                                   FontSize="16"
-                                   FontWeight="Bold"
-                                   Foreground="{DynamicResource {x:Static styles:VsBrushes.HighlightKey}}" />
-                        <TextBlock Text=" stitches remaining" 
-                                   Style="{StaticResource LabelTextStyle}"
-                                   FontSize="14"
-                                   Margin="4,0,0,0" />
                     </StackPanel>
-                </StackPanel>
-            </Border>
+                </Border>
 
-            <!-- Load Pattern Button Section - Anchored to bottom right -->
-            <Border Grid.Row="6" 
-                    Background="{DynamicResource {x:Static styles:VsBrushes.ToolWindowTabSelectedTabKey}}"
-                    CornerRadius="6"
-                    Padding="12,8"
-                    VerticalAlignment="Bottom">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    
-                    <TextBlock Text="Path:" 
-                               Style="{StaticResource LabelTextStyle}"
-                               Grid.Column="0" />
-                    
-                    <!-- File Path TextBox Container -->
-                    <Border Grid.Column="1"
-                            Margin="8,0,8,0"
-                            Style="{StaticResource InputContainerStyle}">
-                        <TextBox Text="{Binding FilePath}" 
-                                 Style="{StaticResource FluentTextBoxStyle}"
-                                 ToolTip="Enter the full path to your pattern file. Quotes are optional (e.g., C:\path\to\pattern.txt or &quot;C:\path with spaces\pattern.txt&quot;)" 
-                                 AutomationProperties.Name="Pattern file path" />
-                    </Border>
-                    
-                    <!-- Load Pattern Button -->
-                    <Button Style="{StaticResource FluentButtonStyle}"
-                            Command="{Binding LoadPatternCommand}" 
-                            IsEnabled="{Binding LoadPatternCommand.RunningCommandsCount.IsZero}"
-                            Grid.Column="2"
-                            AutomationProperties.Name="Load pattern">
-                        <Button.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="4"/>
-                            </Style>
-                        </Button.Resources>
-                        <StackPanel Orientation="Horizontal">
-                            <img:CrispImage Moniker="{x:Static catalog:KnownMonikers.OpenFolder}" 
-                                            Width="16" Height="16" 
-                                            Margin="0,0,8,0" />
-                            <TextBlock Text="Load Pattern" />
-                        </StackPanel>
-                    </Button>
-                </Grid>
-            </Border>
-        </Grid>
+                <!-- Load Pattern Button Section - Anchored to bottom right -->
+                <Border Grid.Row="6" 
+                        Background="{DynamicResource {x:Static styles:VsBrushes.ToolWindowTabSelectedTabKey}}"
+                        CornerRadius="6"
+                        Padding="12,8"
+                        VerticalAlignment="Bottom">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        
+                        <TextBlock Text="Path:" 
+                                   Style="{StaticResource LabelTextStyle}"
+                                   Grid.Column="0" />
+                        
+                        <!-- File Path TextBox Container -->
+                        <Border Grid.Column="1"
+                                Margin="8,0,8,0"
+                                Style="{StaticResource InputContainerStyle}">
+                            <TextBox Text="{Binding FilePath}" 
+                                     Style="{StaticResource FluentTextBoxStyle}"
+                                     ToolTip="Enter the full path to your pattern file. Quotes are optional (e.g., C:\path\to\pattern.txt or &quot;C:\path with spaces\pattern.txt&quot;)" 
+                                     AutomationProperties.Name="Pattern file path" />
+                        </Border>
+                        
+                        <!-- Load Pattern Button -->
+                        <Button Style="{StaticResource FluentButtonStyle}"
+                                Command="{Binding LoadPatternCommand}" 
+                                IsEnabled="{Binding LoadPatternCommand.RunningCommandsCount.IsZero}"
+                                Grid.Column="2"
+                                AutomationProperties.Name="Load pattern">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="4"/>
+                                </Style>
+                            </Button.Resources>
+                            <StackPanel Orientation="Horizontal">
+                                <img:CrispImage Moniker="{x:Static catalog:KnownMonikers.OpenFolder}" 
+                                                Width="16" Height="16" 
+                                                Margin="0,0,8,0" />
+                                <TextBlock Text="Load Pattern" />
+                            </StackPanel>
+                        </Button>
+                    </Grid>
+                </Border>
+            </Grid>
+        </ScrollViewer>
     </Border>
 </DataTemplate>
