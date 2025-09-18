@@ -110,7 +110,8 @@
                             Margin="8,0,8,0"
                             Style="{StaticResource InputContainerStyle}">
                         <TextBox Text="{Binding Row}" 
-                                 Style="{StaticResource FluentTextBoxStyle}" />
+                                 Style="{StaticResource FluentTextBoxStyle}" 
+                                 AutomationProperties.Name="Row number" />
                     </Border>
                     
                     <!-- Rounded Button with Internal Corner Radius -->
@@ -118,7 +119,8 @@
                             Style="{StaticResource FluentButtonStyle}"
                             Command="{Binding NextRowCommand}" 
                             IsEnabled="{Binding NextRowCommand.RunningCommandsCount.IsZero}" 
-                            Grid.Column="2">
+                            Grid.Column="2"
+                            AutomationProperties.Name="Next row">
                         <Button.Resources>
                             <Style TargetType="Border">
                                 <Setter Property="CornerRadius" Value="4"/>
@@ -150,7 +152,8 @@
                             Margin="8,0,8,0"
                             Style="{StaticResource InputContainerStyle}">
                         <TextBox Text="{Binding Stitch}" 
-                                 Style="{StaticResource FluentTextBoxStyle}" />
+                                 Style="{StaticResource FluentTextBoxStyle}" 
+                                 AutomationProperties.Name="Current stitch count" />
                     </Border>
                     
                     <!-- Rounded Button with Internal Corner Radius -->
@@ -159,7 +162,8 @@
                             Command="{Binding AddStitchesCommand}" 
                             CommandParameter="{Binding Increase}" 
                             IsEnabled="{Binding AddStitchesCommand.RunningCommandsCount.IsZero}" 
-                            Grid.Column="2">
+                            Grid.Column="2"
+                            AutomationProperties.Name="Add stitches">
                         <Button.Resources>
                             <Style TargetType="Border">
                                 <Setter Property="CornerRadius" Value="4"/>
@@ -192,7 +196,8 @@
                             Margin="8,0,8,0"
                             Style="{StaticResource InputContainerStyle}">
                         <TextBox Text="{Binding Increase}" 
-                                 Style="{StaticResource FluentTextBoxStyle}" />
+                                 Style="{StaticResource FluentTextBoxStyle}" 
+                                 AutomationProperties.Name="Increase amount" />
                     </Border>
                     
                     <!-- Text-based Icon Buttons with Rounded Corners -->
@@ -202,7 +207,8 @@
                             CommandParameter="-" 
                             IsEnabled="{Binding AddOrRemoveIncreaseCommand.RunningCommandsCount.IsZero}" 
                             Grid.Column="2"
-                            ToolTip="Decrease">
+                            ToolTip="Decrease"
+                            AutomationProperties.Name="Decrease increase amount">
                         <Button.Resources>
                             <Style TargetType="Border">
                                 <Setter Property="CornerRadius" Value="4"/>
@@ -216,7 +222,8 @@
                             CommandParameter="+" 
                             IsEnabled="{Binding AddOrRemoveIncreaseCommand.RunningCommandsCount.IsZero}"
                             Grid.Column="3"
-                            ToolTip="Increase">
+                            ToolTip="Increase"
+                            AutomationProperties.Name="Increase increase amount">
                         <Button.Resources>
                             <Style TargetType="Border">
                                 <Setter Property="CornerRadius" Value="4"/>
@@ -266,7 +273,8 @@
                                  Margin="0,4,0,8"
                                  BorderThickness="0"
                                  Background="{DynamicResource {x:Static styles:VsBrushes.ComboBoxBackgroundKey}}"
-                                 Foreground="{DynamicResource {x:Static styles:VsBrushes.HighlightKey}}" />
+                                 Foreground="{DynamicResource {x:Static styles:VsBrushes.HighlightKey}}" 
+                                 AutomationProperties.Name="Row progress" />
                     
                     <!-- Remaining Stitches -->
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
@@ -306,14 +314,16 @@
                             Style="{StaticResource InputContainerStyle}">
                         <TextBox Text="{Binding FilePath}" 
                                  Style="{StaticResource FluentTextBoxStyle}"
-                                 ToolTip="Enter the full path to your pattern file. Quotes are optional (e.g., C:\path\to\pattern.txt or &quot;C:\path with spaces\pattern.txt&quot;)" />
+                                 ToolTip="Enter the full path to your pattern file. Quotes are optional (e.g., C:\path\to\pattern.txt or &quot;C:\path with spaces\pattern.txt&quot;)" 
+                                 AutomationProperties.Name="Pattern file path" />
                     </Border>
                     
                     <!-- Load Pattern Button -->
                     <Button Style="{StaticResource FluentButtonStyle}"
                             Command="{Binding LoadPatternCommand}" 
                             IsEnabled="{Binding LoadPatternCommand.RunningCommandsCount.IsZero}"
-                            Grid.Column="2">
+                            Grid.Column="2"
+                            AutomationProperties.Name="Load pattern">
                         <Button.Resources>
                             <Style TargetType="Border">
                                 <Setter Property="CornerRadius" Value="4"/>
