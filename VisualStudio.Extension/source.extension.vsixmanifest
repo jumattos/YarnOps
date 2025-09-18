@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
+  <Metadata>
+    <Identity Id="YarnOps.29e4c6f8-0b85-4fb1-aeb4-20ff57c65928" Version="1.0.0" Language="en-US" Publisher="Jullyana Ramos" />
+    <DisplayName>YarnOps</DisplayName>
+    <Description xml:space="preserve">Stay focused during builds with a simple fiber project tracker.</Description>
+    <MoreInfo>https://github.com/jumattos/YarnOps</MoreInfo>
+    <License>LICENSE.txt</License>
+    <GettingStartedGuide>https://github.com/jumattos/YarnOps#readme</GettingStartedGuide>
+    <ReleaseNotes>https://github.com/jumattos/YarnOps/releases</ReleaseNotes>
+    <Icon>Images/YarnOps.png</Icon>
+    <PreviewImage>Images/Preview.png</PreviewImage>
+    <Tags>productivity, tracker, build, fiber, yarn, knitting, knit, crocheting, crochet, stitch, counter</Tags>
+  </Metadata>
+  <Installation>
+    <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[17.0,19.0)">
+      <ProductArchitecture>amd64</ProductArchitecture>
+    </InstallationTarget>
+    <InstallationTarget Id="Microsoft.VisualStudio.Pro" Version="[17.0,19.0)">
+      <ProductArchitecture>amd64</ProductArchitecture>
+    </InstallationTarget>
+    <InstallationTarget Id="Microsoft.VisualStudio.Enterprise" Version="[17.0,19.0)">
+      <ProductArchitecture>amd64</ProductArchitecture>
+    </InstallationTarget>
+  </Installation>
+  <Dependencies>
+    <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.8,)" />
+  </Dependencies>
+  <Prerequisites>
+    <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[17.0,19.0)" DisplayName="Visual Studio core editor" />
+  </Prerequisites>
+  <Assets>
+    <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
+  </Assets>
+</PackageManifest>
