@@ -1,5 +1,7 @@
 using Microsoft.VisualStudio.Extensibility.UI;
 using System.Runtime.Serialization;
+using System.Text;
+using System.Collections.Generic;
 
 namespace VisualStudio.Extension
 {
@@ -7,6 +9,7 @@ namespace VisualStudio.Extension
     internal class TrackerToolWindowData : NotifyPropertyChangedObject
     {
         private string[] _patternLines = Array.Empty<string>();
+        private (string instruction, int stitchCount)[] _patternData = Array.Empty<(string, int)>();
 
         public TrackerToolWindowData()
         {
@@ -24,12 +27,14 @@ namespace VisualStudio.Extension
             {
                 int inc = parameter as int? ?? 0;
                 Stitch += inc;
+                UpdateStitchProgress();
                 return Task.CompletedTask;
             });
 
             NextRowCommand = new AsyncCommand((parameter, clientContext, cancellationToken) =>
             {
                 Row++;
+                Stitch = 0; // Reset stitch count for new row
                 UpdateInstructionFromPattern();
                 return Task.CompletedTask;
             });
@@ -60,6 +65,9 @@ namespace VisualStudio.Extension
                     string[] lines = await File.ReadAllLinesAsync(cleanPath, cancellationToken);
                     _patternLines = lines.Where(line => !string.IsNullOrWhiteSpace(line)).ToArray();
                     
+                    // Parse CSV pattern data
+                    ParsePatternData();
+                    
                     // Reset to row 1 and update instruction
                     Row = 1;
                     UpdateInstructionFromPattern();
@@ -71,27 +79,140 @@ namespace VisualStudio.Extension
             });
         }
 
+        private void ParsePatternData()
+        {
+            var patternData = new List<(string instruction, int stitchCount)>();
+            
+            foreach (string line in _patternLines)
+            {
+                if (string.IsNullOrWhiteSpace(line)) continue;
+                
+                var parts = ParseCsvLine(line);
+                if (parts.Count >= 2)
+                {
+                    string instruction = parts[0].Trim();
+                    
+                    // Remove surrounding quotes from instruction if present
+                    if (instruction.StartsWith("\"") && instruction.EndsWith("\"") && instruction.Length > 1)
+                    {
+                        instruction = instruction.Substring(1, instruction.Length - 2);
+                    }
+                    
+                    // Try to parse the stitch count from the second column
+                    string stitchCountStr = parts[1].Trim();
+                    if (int.TryParse(stitchCountStr, out int stitchCount))
+                    {
+                        patternData.Add((instruction, stitchCount));
+                    }
+                    else
+                    {
+                        // If parsing fails, use 0 as default
+                        patternData.Add((instruction, 0));
+                    }
+                }
+                else if (parts.Count == 1)
+                {
+                    // If line has only one column, treat as instruction only
+                    string instruction = parts[0].Trim();
+                    if (instruction.StartsWith("\"") && instruction.EndsWith("\"") && instruction.Length > 1)
+                    {
+                        instruction = instruction.Substring(1, instruction.Length - 2);
+                    }
+                    patternData.Add((instruction, 0));
+                }
+            }
+            
+            _patternData = patternData.ToArray();
+        }
+
+        private List<string> ParseCsvLine(string line)
+        {
+            var result = new List<string>();
+            var currentField = new StringBuilder();
+            bool inQuotes = false;
+            
+            for (int i = 0; i < line.Length; i++)
+            {
+                char c = line[i];
+                
+                if (c == '"')
+                {
+                    if (inQuotes && i + 1 < line.Length && line[i + 1] == '"')
+                    {
+                        // Handle escaped quotes (double quotes within quoted field)
+                        currentField.Append('"');
+                        i++; // Skip the next quote
+                    }
+                    else
+                    {
+                        // Toggle quote state
+                        inQuotes = !inQuotes;
+                        currentField.Append(c); // Keep the quote in the field
+                    }
+                }
+                else if (c == ',' && !inQuotes)
+                {
+                    // Field separator found outside quotes
+                    result.Add(currentField.ToString());
+                    currentField.Clear();
+                }
+                else
+                {
+                    // Regular character
+                    currentField.Append(c);
+                }
+            }
+            
+            // Add the last field
+            result.Add(currentField.ToString());
+            
+            return result;
+        }
+
         private void UpdateInstructionFromPattern()
         {
-            if (_patternLines.Length == 0)
+            if (_patternData.Length == 0)
             {
                 Instruction = "Load pattern to see instructions here.";
+                TotalStitchesInRow = 0;
+                UpdateStitchProgress();
                 return;
             }
 
             // Get the instruction for the current row (1-based indexing)
             int rowIndex = Row - 1;
-            if (rowIndex >= 0 && rowIndex < _patternLines.Length)
+            if (rowIndex >= 0 && rowIndex < _patternData.Length)
             {
-                Instruction = _patternLines[rowIndex];
+                var (instruction, stitchCount) = _patternData[rowIndex];
+                Instruction = instruction;
+                TotalStitchesInRow = stitchCount;
+                UpdateStitchProgress();
             }
-            else if (rowIndex >= _patternLines.Length)
+            else if (rowIndex >= _patternData.Length)
             {
-                Instruction = $"Pattern complete! (Only {_patternLines.Length} rows in pattern)";
+                Instruction = $"Pattern complete! (Only {_patternData.Length} rows in pattern)";
+                TotalStitchesInRow = 0;
+                UpdateStitchProgress();
             }
             else
             {
                 Instruction = "Load pattern to see instructions here.";
+                TotalStitchesInRow = 0;
+                UpdateStitchProgress();
+            }
+        }
+
+        private void UpdateStitchProgress()
+        {
+            if (TotalStitchesInRow > 0)
+            {
+                RemainingStitches = Math.Max(0, TotalStitchesInRow - Stitch);
+                ProgressPercentage = TotalStitchesInRow > 0 ? (double)Stitch / TotalStitchesInRow * 100 : 0;
+            }
+            else
+            {
+                RemainingStitches = 0;
+                ProgressPercentage = 0;
             }
         }
 
@@ -130,7 +251,20 @@ namespace VisualStudio.Extension
         public int Stitch
         {
             get => _stitch;
-            set => SetProperty(ref this._stitch, Math.Max(0, value));
+            set 
+            { 
+                // Ensure stitch count doesn't exceed total stitches in row and isn't negative
+                int clampedValue = Math.Max(0, value);
+                if (TotalStitchesInRow > 0)
+                {
+                    clampedValue = Math.Min(clampedValue, TotalStitchesInRow);
+                }
+                
+                if (SetProperty(ref this._stitch, clampedValue))
+                {
+                    UpdateStitchProgress();
+                }
+            }
         }
 
         private string _filePath = "";
@@ -139,6 +273,30 @@ namespace VisualStudio.Extension
         {
             get => _filePath;
             set => SetProperty(ref this._filePath, value ?? "");
+        }
+
+        private int _totalStitchesInRow = 0;
+        [DataMember]
+        public int TotalStitchesInRow
+        {
+            get => _totalStitchesInRow;
+            set => SetProperty(ref this._totalStitchesInRow, value);
+        }
+
+        private int _remainingStitches = 0;
+        [DataMember]
+        public int RemainingStitches
+        {
+            get => _remainingStitches;
+            set => SetProperty(ref this._remainingStitches, value);
+        }
+
+        private double _progressPercentage = 0;
+        [DataMember]
+        public double ProgressPercentage
+        {
+            get => _progressPercentage;
+            set => SetProperty(ref this._progressPercentage, value);
         }
 
         [DataMember]

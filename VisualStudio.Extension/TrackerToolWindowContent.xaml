@@ -77,6 +77,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
@@ -225,8 +226,65 @@
                 </Grid>
             </Border>
 
+            <!-- Row Progress Section -->
+            <Border Grid.Row="4" 
+                    Background="{DynamicResource {x:Static styles:VsBrushes.ToolWindowTabSelectedTabKey}}"
+                    CornerRadius="6"
+                    Padding="12,8"
+                    Margin="0,0,0,8">
+                <StackPanel>
+                    <!-- Progress Header -->
+                    <Grid Margin="0,0,0,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        
+                        <TextBlock Text="Row Progress" 
+                                   Style="{StaticResource LabelTextStyle}"
+                                   Grid.Column="0" />
+                        
+                        <StackPanel Orientation="Horizontal" Grid.Column="1">
+                            <TextBlock Text="{Binding Stitch}" 
+                                       Style="{StaticResource LabelTextStyle}"
+                                       FontWeight="Bold" />
+                            <TextBlock Text=" / " 
+                                       Style="{StaticResource LabelTextStyle}" />
+                            <TextBlock Text="{Binding TotalStitchesInRow}" 
+                                       Style="{StaticResource LabelTextStyle}"
+                                       FontWeight="Bold" />
+                            <TextBlock Text=" stitches" 
+                                       Style="{StaticResource LabelTextStyle}"
+                                       Margin="4,0,0,0" />
+                        </StackPanel>
+                    </Grid>
+                    
+                    <!-- Progress Bar -->
+                    <ProgressBar Value="{Binding ProgressPercentage}" 
+                                 Maximum="100"
+                                 Height="16"
+                                 Margin="0,4,0,8"
+                                 BorderThickness="0"
+                                 Background="{DynamicResource {x:Static styles:VsBrushes.ComboBoxBackgroundKey}}"
+                                 Foreground="{DynamicResource {x:Static styles:VsBrushes.HighlightKey}}" />
+                    
+                    <!-- Remaining Stitches -->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <TextBlock Text="{Binding RemainingStitches}" 
+                                   Style="{StaticResource LabelTextStyle}"
+                                   FontSize="16"
+                                   FontWeight="Bold"
+                                   Foreground="{DynamicResource {x:Static styles:VsBrushes.HighlightKey}}" />
+                        <TextBlock Text=" stitches remaining" 
+                                   Style="{StaticResource LabelTextStyle}"
+                                   FontSize="14"
+                                   Margin="4,0,0,0" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
             <!-- Load Pattern Button Section - Anchored to bottom right -->
-            <Border Grid.Row="5" 
+            <Border Grid.Row="6" 
                     Background="{DynamicResource {x:Static styles:VsBrushes.ToolWindowTabSelectedTabKey}}"
                     CornerRadius="6"
                     Padding="12,8"
