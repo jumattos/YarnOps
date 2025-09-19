@@ -14,7 +14,10 @@ namespace VisualStudio.Extension
                     version: this.ExtensionAssemblyVersion,
                     publisherName: "Jullyana Ramos",
                     displayName: "YarnOps",
-                    description: "Stay focused during builds with a simple fiber project tracker."),
+                    description: "Stay focused during builds with a simple fiber project tracker.")
+            {
+                InstallationTargetVersion = "[17.14,19.0)",
+            }
         };
 
         /// <inheritdoc />
