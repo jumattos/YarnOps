@@ -24,7 +24,7 @@ A lightweight Visual Studio extension that helps developers stay mentally engage
 ## How to Use
 
 ### 1. Opening the Tracker
-- Go to **View** → **Other Windows** → **YarnOps Tracker**
+- Go to **View** → **Other Windows** → **Yarn Ops**
 
 ### 2. Basic Tracking
 - **Row Counter**: Manually track which row you're working on
@@ -83,7 +83,6 @@ YarnOps expects pattern files in **CSV format** with the following structure:
 - **Issues**: Report bugs and feature requests on [GitHub Issues](https://github.com/jumattos/YarnOps/issues)
 - **Discussions**: Share patterns and usage tips in [GitHub Discussions](https://github.com/jumattos/YarnOps/discussions)
 - **Contributing**: Pull requests welcome!
-- **License**: MIT License - see [LICENSE.txt](LICENSE.txt) for details
 
 ## Acknowledgments
 
