@@ -16,7 +16,12 @@ namespace VisualStudio.Extension
                     displayName: "YarnOps",
                     description: "Stay focused during builds with a simple fiber project tracker.")
             {
+                Icon = "Images\\YarnOps.png",
                 InstallationTargetVersion = "[17.14,19.0)",
+                MoreInfo = "https://github.com/jumattos/YarnOps#readme",
+                PreviewImage = "Images\\PreviewImage.png",
+                ReleaseNotes = "https://github.com/jumattos/YarnOps/releases",
+                Tags = new[] { "productivity", "tracker", "build", "fiber", "yarn", "knitting", "knit", "crocheting", "crochet", "stitch", "counter" }
             }
         };
 
